@@ -1,30 +1,26 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <!-- tạo ra component bao bọc router, :is là layout -->
+  <component :is="layout">
+    <router-view />
+  </component>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { useRoute } from "vue-router";
+import { computed } from "vue";
+import { PUBLIC_LAYOUT } from "./constants";
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  setup() {
+    
+    const route = useRoute();
+    console.log(route);
+    return {
+      //trả về layout mỗi nghĩ route thay đổi
+      layout: computed(() => {
+        return (route.meta.layout || "default");
+      }),
+    };
+  },
+};
+</script>
